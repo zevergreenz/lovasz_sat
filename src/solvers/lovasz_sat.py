@@ -4,7 +4,7 @@ import secrets
 
 def solve(instance):
     """
-    Algorithmic Sequential Solver (from the constructive Lovasz Local Lemma paper).
+    Lovasz Sequential Sat Solver (from the constructive Lovasz Local Lemma paper).
     We start with a random assignment for all variables. Then, we find the first violated 
     clause, and resample the variables in that clause (assigning a new values to each of
     them independently and uniformly at random). We repeat the process until we find a valid
