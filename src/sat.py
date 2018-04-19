@@ -1,9 +1,7 @@
 #!/usr/bin/env python
 """
-Solves SAT instance by reading from stdin using an iterative or recursive
-watchlist-based backtracking algorithm. Iterative algorithm is used by default,
-unless the --recursive flag is given. Empty lines and lines starting with a #
-will be ignored.
+Solves SAT instance by reading from stdin using the Lovasz Local Lemma Sequential 
+Solver algorithm.
 """
 from __future__ import division
 from __future__ import print_function
@@ -14,27 +12,10 @@ from sys import stdin
 from sys import stderr
 
 from satinstance import SATInstance
-from solvers.watchlist import setup_watchlist
-from solvers import recursive_sat
-from solvers import iterative_sat
 from solvers import lovasz_sat
 from solvers import random_sat
 
 __author__ = 'Sahand Saba'
-
-
-def solve(instance, alg, verbose=False):
-    """
-    Returns a generator that generates all the satisfying assignments for a
-    given SAT instance, using algorithm given by alg.
-    """
-    n = len(instance.variables)
-    watchlist = setup_watchlist(instance)
-    if not watchlist:
-        return ()
-    assignment = [None] * n
-    return alg.solve(instance, watchlist, assignment, 0, verbose)
-
 
 def main():
     args = parse_args()
@@ -42,8 +23,7 @@ def main():
     with args.input as file:
         instance = SATInstance.from_file(file)
 
-    assignments = solve(instance, lovasz_sat, args.verbose)
-    # assignments = solve(instance, args.algorithm, args.verbose)
+    assignments = lovasz_sat.solve(instance)
     count = 0
     for assignment in assignments:
         if args.verbose:
@@ -79,12 +59,12 @@ def parse_args():
                         help=('only output variables with names'
                               ' starting with the given string.'),
                         default='')
-    parser.add_argument('--iterative',
+    parser.add_argument('--random',
                         help='use the iterative algorithm.',
                         action='store_const',
                         dest='algorithm',
-                        default=recursive_sat,
-                        const=iterative_sat)
+                        default=lovasz_sat,
+                        const=random_sat)
     parser.add_argument('-i',
                         '--input',
                         help='read from given file instead of stdin.',

@@ -2,7 +2,7 @@ from collections import defaultdict
 from sys import stderr
 import secrets
 
-def solve(instance, watchlist, assignment, d, verbose):
+def solve(instance):
     """
     Algorithmic Sequential Solver (from the constructive Lovasz Local Lemma paper).
     We start with a random assignment for all variables. Then, we find the first violated 
