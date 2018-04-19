@@ -18,6 +18,7 @@ from solvers.watchlist import setup_watchlist
 from solvers import recursive_sat
 from solvers import iterative_sat
 from solvers import lovasz_sat
+from solvers import random_sat
 
 __author__ = 'Sahand Saba'
 
