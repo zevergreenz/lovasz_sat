@@ -30,9 +30,9 @@ def solve(instance):
                 violated_clause = clause
                 break
         if violated_clause == None:
-            print('Terminate after %d iterations' % i)
-            return [assignment]
+            # print('Terminate after %d iterations' % (i+1))
+            return [assignment, i+1]
         else:
             # Uniformly reassign all variables
             assignment = [secrets.choice(values) for _ in range(len(instance.variables))]
-    return []
+    return [None, i+1]

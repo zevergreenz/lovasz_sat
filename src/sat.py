@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 """
 Solves SAT instance by reading from stdin using the Lovasz Local Lemma Sequential 
-Solver algorithm.
+Solver algorithm or Random Solver (naive) algorithm.
 """
 from __future__ import division
 from __future__ import print_function
@@ -10,6 +10,7 @@ from argparse import ArgumentParser
 from argparse import FileType
 from sys import stdin
 from sys import stderr
+from collections import Counter
 
 from satinstance import SATInstance
 from solvers import lovasz_sat
@@ -21,20 +22,20 @@ def main():
     with args.input as file:
         instance = SATInstance.from_file(file)
 
-    assignments = lovasz_sat.solve(instance)
-    count = 0
-    for assignment in assignments:
-        if args.verbose:
-            print('Found satisfying assignment #{}:'.format(count),
-                  file=stderr)
-        # print(instance.assignment_to_string(assignment,
-        #                                     brief=args.brief,
-        #                                     starting_with=args.starting_with))
-        count += 1
-        if not args.all:
-            break
+    # Run several times for benchmarking purposes.
+    result = []
+    for _ in range(10000):
+        assignment, count = args.algorithm.solve(instance)
+        if assignment != None:
+            result.append(count)
+    print(Counter(result))
 
-    if args.verbose and count == 0:
+    if args.verbose and assignment != None:
+        print('Found satisfying assignment:')
+        print(instance.assignment_to_string(assignment,
+                                            brief=args.brief,
+                                            starting_with=args.starting_with))
+    elif args.verbose:
         print('No satisfying assignment exists.', file=stderr)
 
 
@@ -58,7 +59,7 @@ def parse_args():
                               ' starting with the given string.'),
                         default='')
     parser.add_argument('--random',
-                        help='use the iterative algorithm.',
+                        help='use the random algorithm.',
                         action='store_const',
                         dest='algorithm',
                         default=lovasz_sat,

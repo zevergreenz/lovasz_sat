@@ -25,8 +25,8 @@ def solve(instance):
                 break
 
         if violated_clause == None:
-            print('Terminate after %d iterations' % iteration)
-            return [assignment]
+            # print('Terminate after %d iterations' % (iteration+1))
+            return [assignment, iteration + 1]
         else:
             # Resample the variable in the violated clause.
             # Optimization: We keep resampling this clause until it is satisfied.
@@ -38,7 +38,7 @@ def solve(instance):
                     if new_val != assignment[var]:
                         assignment[var] = new_val
                         modified_var.append(var)
-    return []
+    return [None, iteration + 1]
 
 def is_satisfied(clause, assignment):
     for number in clause:
