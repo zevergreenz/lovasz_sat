@@ -15,8 +15,6 @@ is encoded as 2 * 3 = 6 and ~b as  2 * 3 + 1 = 7.
 from __future__ import division
 from __future__ import print_function
 
-__author__ = 'Sahand Saba'
-
 
 class SATInstance(object):
     def parse_and_add_clause(self, line):

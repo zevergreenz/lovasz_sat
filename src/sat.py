@@ -15,8 +15,6 @@ from satinstance import SATInstance
 from solvers import lovasz_sat
 from solvers import random_sat
 
-__author__ = 'Sahand Saba'
-
 def main():
     args = parse_args()
     instance = None
