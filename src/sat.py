@@ -48,9 +48,9 @@ def main():
         if args.verbose:
             print('Found satisfying assignment #{}:'.format(count),
                   file=stderr)
-        print(instance.assignment_to_string(assignment,
-                                            brief=args.brief,
-                                            starting_with=args.starting_with))
+        # print(instance.assignment_to_string(assignment,
+        #                                     brief=args.brief,
+        #                                     starting_with=args.starting_with))
         count += 1
         if not args.all:
             break

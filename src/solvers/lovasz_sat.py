@@ -10,9 +10,7 @@ def solve(instance, watchlist, assignment, d, verbose):
     values = [0, 1]
     # Start with a random assignment for all variables.
     assignment = [secrets.choice(values) for _ in range(len(instance.variables))]
-    print(instance.clauses)
-    for _ in range(1000000):
-        print(assignment)
+    for i in range(1000000):
         # Find the first violated clause.
         violated_clause = None
         for clause in instance.clauses:
@@ -27,6 +25,7 @@ def solve(instance, watchlist, assignment, d, verbose):
                 violated_clause = clause
                 break
         if violated_clause == None:
+            print("Terminate after %d iterations" % i)
             return [assignment]
         else:
             # Resample the variable in the violated clause.
